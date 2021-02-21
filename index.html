@@ -85,6 +85,31 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchAll() {
         // TODO
+        document.getElementById("recordForm").style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+        
+        let out = document.getElementById("output");
+        let end = document.getElementById("endpoint").value;
+        
+        fetch(end, {
+          method: "get"
+        })
+        .then(res => {
+          if(res.status > 199 && res.status < 300) {
+            return res.json();
+          } 
+          else {
+            alert("status not greater than 199 and less than 300");
+            throw res.statusText + ": " + res.status;
+          }
+        })
+        .then(data => {
+          out.innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          alert("error fetching!!!")
+          out.innerText = "error: " + error;
+        });
       }
 
       // This function should fetch one entry from the given endpoint.
@@ -93,22 +118,152 @@
       // the writeup to view the URL pattern for fetch one and fetch all
       function fetchOne() {
         // TODO
+        document.getElementById('recordForm').style.display = "none";
+        document.getElementById('recordIDcontainer').style.display = "none";
+        
+        let out = document.getElementById("output");
+        let end = document.getElementById("endpoint").value;
+        let id = prompt("Enter record id");
+
+        //end += "/" + id;
+        
+        fetch(end + "/" + id, {
+          method: "get"
+        })
+        .then(res => {
+          if(res.status > 199 && res.status < 300) {
+            return res.json();
+          } 
+          else {
+            alert("status not greater than 199 and less than 300");
+            throw res.statusText + ": " + res.status;
+          }
+        })
+        .then(data => {
+          output.innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          alert("error fetching!!!")
+          out.innerText = "error: " + error;
+        });
       }
 
       // This function should use fetch to create one entry in the given endpoint.
       // From the 4 CRUD actions, this is the CREATE action, and uses the POST http method.
       // The main difference from updateRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function createRecord() {
+      function createRecord(a) {
         // TODO
+        
+
+        if(a == "show") {
+          
+          document.getElementById("recordForm").style.display = "inline";
+          document.getElementById("recordIDcontainer").style.display = "none";
+          document.getElementById("output").value = "";
+          document.getElementById("author").value = "";
+          document.getElementById("title").value = "";
+          
+        }
+
+        if(a == "submit") {
+
+          let end = document.getElementById("endpoint").value;
+          let out = document.getElementById("output");
+
+          let author = document.getElementById("author").value;
+          let title = document.getElementById("title").value;
+          
+          let body = {
+            author: author,
+            title: title
+          }
+
+          //end += "/" + id;
+
+          fetch(end, {
+            method: "post",
+            headers: {
+              "Content-type" : "application/json"
+            },
+            body: JSON.stringify(body)
+          })
+          .then(res => {
+            if(res.status > 199 && res.status < 300) {
+              return res.json();
+            } 
+            else {
+              alert("status not greater than 199 and less than 300");
+              throw res.statusText + ": " + res.status;
+            }
+          })
+          .then(data => {
+            output.innerText = JSON.stringify(data);
+          })
+          .catch(error => {
+            alert("error fetching!!!")
+            out.innerText = "error: " + error;
+          });
+        }
       }
 
       // This function should use fetch to update one existing entry in the given endpoint.
       // From the 4 CRUD actions, this is the UPDATE action, and uses the PUT http method.
       // The main difference from createRecord() will be the URL you send data to; check
       // the writeup to view the URL pattern for create and update
-      function updateRecord() {
+      function updateRecord(a) {
         // TODO
+
+        if(a == "show") {
+          document.getElementById("recordForm").style.display = "inline";
+          document.getElementById("recordIDcontainer").style.display = "inline";
+          document.getElementById("author").value = "";
+          document.getElementById("title").value = "";
+          
+          document.getElementById("output").value = "";
+          
+        }
+
+        if(a == "submit") {
+          
+          let end = document.getElementById("endpoint").value;
+          let out = document.getElementById("output");
+          let author = document.getElementById("author").value;
+          let title = document.getElementById("title").value;
+          
+          let id = document.getElementById("recordID").value;
+          
+          let body = {
+            author: author,
+            title: title
+          }
+          
+          //end += "/" + id;
+
+          fetch(end + "/" + id, {
+            method: "put",
+            headers: {
+              "Content-type" : "application/json"
+            },
+            body: JSON.stringify(body)
+          })
+          .then(res => {
+            if(res.status > 199 && res.status < 300) {
+              return res.json()
+            } 
+            else {
+              alert("status not greater than 199 and less than 300");
+              throw res.statusText + ": " + res.status;
+            }
+          })
+          .then(data => {
+            output.innerText = JSON.stringify(data);
+          })
+          .catch(error => {
+            alert("error fetching!!!")
+            out.innerText = "error: " + error;
+          });
+        }
       }
 
       // This function should use fetch to delete one existing entry in the given endpoint.
@@ -118,6 +273,35 @@
       // delete all, only delete one.
       function deleteRecord() {
         // TODO
+        document.getElementById("recordForm").style.display = "none";
+        document.getElementById("recordIDcontainer").style.display = "none";
+        
+        let end = document.getElementById("endpoint").value;
+        let out = document.getElementById("output");
+        let id = prompt("Enter record id");
+        
+        
+        //end += "/" + id;
+
+        fetch(end + "/" + id, {
+          method: "delete"
+        })
+        .then(res => {
+          if(res.status > 199 && res.status < 300) {
+            return res.json();
+          } 
+          else {
+            alert("status not greater than 199 and less than 300");
+            throw res.statusText + ":" + res.status;
+          }
+        })
+        .then(data => {
+          output.innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          alert("error fetching!!!")
+          out.innerText = "error: " + error;
+        });
       }
 
       window.addEventListener('DOMContentLoaded', () => {
