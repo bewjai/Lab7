@@ -1,3 +1,3 @@
 # Lab7
 Name(s): Bill Wu (A16097941)
-Link: https://bewjai.github.io/Lab7/
+Link: https://billjwu.github.io/Lab7/
